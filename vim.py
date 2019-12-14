@@ -82,7 +82,7 @@ def get_vsvars(python):
     raise RuntimeError("Cannot find a suitable version of Visual Studio")
 
 BUILD_SCRIPT = """\
-call "{vs}" {arch}
+rem call "{vs}" {arch}
 cd vim\\src
 nmake /f make_mvc.mak CPUNR=i686 WINVER=0x0500 {sdk} {py} {lua} {make}
 nmake /f make_mvc.mak GUI=yes DIRECTX=yes CPUNR=i686 WINVER=0x0500 {sdk} {py} {lua} {make}
