@@ -11,4 +11,6 @@ jobs:
               with:
                 python-version: 3.8
             - name: Step 1
-              run: python vim.py all
+              run: |
+                  $vs = (dir 'C:\Program Files*\Microsoft Visual Studio\*\*\Common7\Tools\VsDevCmd.bat').FullName
+                  "`"$vs`" & build.bat" | cmd
