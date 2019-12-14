@@ -98,16 +98,16 @@ def build(target='.', python=True, lua=True, make=''):
     batbase = 'do_build.cmd'
     batfile = os.path.join(target, batbase)
     vs, vc = get_vsvars(python)
-    if vc == 140 and not os.path.exists(SDK_DIR):
-        raise RuntimeError("Visual Studio 2015 needs the V7.1A Windows SDK")
+    #if vc == 140 and not os.path.exists(SDK_DIR):
+    #    raise RuntimeError("Visual Studio 2015 needs the V7.1A Windows SDK")
 
     py = PY if python else ""
     lua = "LUA={here}\\lua LUA_VER=53".format(here=HERE) if lua else ""
     arch = "amd64" if platform.architecture()[0] == '64bit' else "x86"
 
     sdk = ""
-    if vc == 140:
-        sdk = 'SDK_INCLUDE_DIR="{}"'.format(SDK_DIR)
+    #if vc == 140:
+    #    sdk = 'SDK_INCLUDE_DIR="{}"'.format(SDK_DIR)
 
     bat = BUILD_SCRIPT.format(vs=vs, arch=arch, py=py, lua=lua, make=make, sdk=sdk)
     with open(batfile, "w") as f:
