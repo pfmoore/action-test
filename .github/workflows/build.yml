@@ -5,5 +5,10 @@ jobs:
         name: get_vim
         runs-on: windows-latest
         steps:
+            - uses: actions/checkout@master
+            - name: Set up Python 3.8
+              uses: actions/setup-python@v1
+              with:
+                python-version: 3.8
             - name: Step 1
-              run: py -3.8 vim.py all
+              run: python vim.py all
