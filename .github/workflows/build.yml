@@ -10,7 +10,5 @@ jobs:
               uses: actions/setup-python@v1
               with:
                 python-version: 3.8
-            - name: Step 1
-              run: |
-                  $vs = (dir 'C:\Program Files*\Microsoft Visual Studio\*\*\Common7\Tools\VsDevCmd.bat').FullName
-                  "`"$vs`" & build.bat" | cmd
+            - name: Build Vim
+              run: python vim.py all
