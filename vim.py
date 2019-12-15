@@ -91,7 +91,7 @@ def build(target='.', python=True, lua=True, make=''):
     vs = get_vsvars(python)
 
     py = PY if python else ""
-    lua = "LUA={here}\\lua LUA_VER=53".format(here=HERE) if lua else ""
+    lua = "LUA={here}\\lua LUA_VER=53 DYNAMIC_LUA=no".format(here=HERE) if lua else ""
 
     bat = BUILD_SCRIPT.format(vs=vs, py=py, lua=lua, make=make)
     with open(batfile, "w") as f:
