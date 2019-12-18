@@ -73,7 +73,8 @@ def get_vsvars(python):
     return vsdev
 
 BUILD_SCRIPT = """\
-call "{vs}"
+set VSCMD_VCVARSALL_INIT=1
+call "{vs}" -no_logo -arch=amd64
 cd vim\\src
 nmake /f make_mvc.mak CPUNR=i686 WINVER=0x0501 {py} {lua} {make}
 nmake /f make_mvc.mak GUI=yes DIRECTX=yes CPUNR=i686 WINVER=0x0501 {py} {lua} {make}
