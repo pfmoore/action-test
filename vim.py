@@ -110,9 +110,14 @@ def package(target='.', version='unknown'):
         return os.path.join(target, 'vim', 'src', name)
     runtime = os.path.join(target, 'vim', 'runtime')
 
-    version_re = re.compile('.*VIM_VERSION_NODOT\\s*"(vim\\d\\d[^"]*)".*', re.S)
+    version_re = re.compile('#define.*VIM_VERSION_(MAJOR|MINOR)\\s*(\\d+).*', re.S)
+    ver_data = {}
     with open(src('version.h')) as f:
-        VIMRTDIR = version_re.match(f.read()).group(1)
+        for line in f:
+            m = version_re.match(line)
+            if m:
+                ver_data[m.group(1)] = m.group(2)
+    VIMRTDIR = "vim{MAJOR}{MINOR}".format_map(ver_data)
 
     zip_name = 'vim-{}.zip'.format(version)
     print("Writing {}".format(os.path.join(os.getcwd(), zip_name)))
