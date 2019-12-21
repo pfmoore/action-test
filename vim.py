@@ -65,6 +65,12 @@ def patch(target='.'):
         ])
     
 
+def patch_makefile(filename):
+    content = Path(filename).read_text(encoding="latin1")
+    content.replace("LTCG:STATUS", "LTCG:NOSTATUS")
+    Path(filename).write_text(content, encoding="latin1")
+
+
 def get_vsvars(python):
     vsdevcmd = r'Program Files*\Microsoft Visual Studio\*\*\Common7\Tools\VsDevCmd.bat'
     vsdev = next(Path("C:\\").glob(vsdevcmd), None)
@@ -87,6 +93,7 @@ PY = 'PYTHON{v}="{prefix}" DYNAMIC_PYTHON{v}=yes PYTHON{v}_VER={vv}'.format(
 
 @vim.command()
 def build(target='.', python=True, lua=True, make=''):
+    patch_makefile(os.path.join(target, "vim", "src", "make_mvc.mak"))
     batbase = 'do_build.cmd'
     batfile = os.path.join(target, batbase)
     vs = get_vsvars(python)
