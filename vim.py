@@ -67,7 +67,7 @@ def patch(target='.'):
 
 def patch_makefile(filename):
     content = Path(filename).read_text(encoding="latin1")
-    content.replace("LTCG:STATUS", "LTCG:NOSTATUS")
+    content = content.replace("LTCG:STATUS", "LTCG:NOSTATUS")
     Path(filename).write_text(content, encoding="latin1")
 
 
@@ -82,6 +82,7 @@ BUILD_SCRIPT = """\
 set VSCMD_VCVARSALL_INIT=1
 call "{vs}" -no_logo -arch=amd64
 cd vim\\src
+findstr LTCG Make_mvc.mak
 nmake /f make_mvc.mak CPUNR=i686 WINVER=0x0501 {py} {lua} {make}
 nmake /f make_mvc.mak GUI=yes DIRECTX=yes CPUNR=i686 WINVER=0x0501 {py} {lua} {make}
 """
@@ -93,7 +94,7 @@ PY = 'PYTHON{v}="{prefix}" DYNAMIC_PYTHON{v}=yes PYTHON{v}_VER={vv}'.format(
 
 @vim.command()
 def build(target='.', python=True, lua=True, make=''):
-    patch_makefile(os.path.join(target, "vim", "src", "make_mvc.mak"))
+    patch_makefile(os.path.join(target, "vim", "src", "Make_mvc.mak"))
     batbase = 'do_build.cmd'
     batfile = os.path.join(target, batbase)
     vs = get_vsvars(python)
