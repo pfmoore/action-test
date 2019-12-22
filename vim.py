@@ -39,7 +39,7 @@ SDK_DIR = "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Include"
 
 @vim.command()
 def get(target='.'):
-    subprocess.check_call(['git', 'clone', VIM_URL, 'vim'], cwd=target)
+    subprocess.check_call(['git', 'clone', '-q', VIM_URL, 'vim'], cwd=target)
     version = subprocess.check_output(
         ['git', 'describe', '--tags'],
         universal_newlines=True,
@@ -47,6 +47,7 @@ def get(target='.'):
     ).strip()
     if version.startswith('v'):
         version = version[1:]
+    print("::set-output name={name}::{value}".format(name="version", value=version))
     return version
 
 @vim.command()
