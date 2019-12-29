@@ -17,7 +17,7 @@ jobs:
               id: create_release
               uses: ncipollo/release-action@v1
               with:
-                tag: steps.build.outputs.version
+                tag: ${{ steps.build.outputs.version }}
                 commit: master
                 allowUpdates: true
                 artifacts: "vim*.zip*"
