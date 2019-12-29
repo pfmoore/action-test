@@ -1,5 +1,7 @@
 name: build
-on: push
+on:
+    schedule:
+        - cron: "30 12 * * 0"
 jobs:
     get_vim:
         name: get_vim
