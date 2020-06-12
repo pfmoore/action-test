@@ -13,4 +13,4 @@ jobs:
         - MacOS
     steps:
     - name: Test Expression
-      run: echo ${{ matrix.os == "Windows" }}
+      run: echo ${{ matrix.os == 'Windows' && 'win' || 'non-win' }}
