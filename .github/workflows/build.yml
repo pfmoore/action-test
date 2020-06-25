@@ -1,16 +1,31 @@
-name: build
+name: Test Action
 on:
-- push
+  repository_dispatch:
+    types: [release]
 jobs:
   test:
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}-latest
-    strategy:
-      matrix:
-        os:
-        - Ubuntu
-        - Windows
-        - MacOS
+    name: Test
+    runs-on: ubuntu-latest
     steps:
-    - name: Test Expression
-      run: echo ${{ matrix.os == 'Windows' && 'win' || 'non-win' }}
+    - name: Dummy file
+      run: echo Hello, world >hi.txt
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.event.client_payload.tag }}
+        release_name: Release ${{ github.event.client_payload.tag }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: hi.txt
+        asset_name: hi.txt
+        asset_content_type: text/plain
